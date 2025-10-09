@@ -2397,6 +2397,10 @@ rb_int_round(VALUE num, int ndigits, enum ruby_num_rounding_mode mode)
 {
     VALUE n, f, h, r;
 
+    if (ndigits >= 0) {
+	    return  num;
+    }
+
     if (int_round_zero_p(num, ndigits)) {
         return INT2FIX(0);
     }
@@ -2428,6 +2432,10 @@ rb_int_round(VALUE num, int ndigits, enum ruby_num_rounding_mode mode)
 static VALUE
 rb_int_floor(VALUE num, int ndigits)
 {
+    if (ndigits >= 0) {
+	    return num;
+    }
+
     VALUE f = int_pow(10, -ndigits);
     if (FIXNUM_P(num) && FIXNUM_P(f)) {
         SIGNED_VALUE x = FIX2LONG(num), y = FIX2LONG(f);
@@ -2449,6 +2457,10 @@ rb_int_floor(VALUE num, int ndigits)
 static VALUE
 rb_int_ceil(VALUE num, int ndigits)
 {
+    if (ndigits >= 0) {
+        return num;
+    }
+
     VALUE f = int_pow(10, -ndigits);
     if (FIXNUM_P(num) && FIXNUM_P(f)) {
         SIGNED_VALUE x = FIX2LONG(num), y = FIX2LONG(f);
@@ -2474,6 +2486,10 @@ rb_int_ceil(VALUE num, int ndigits)
 VALUE
 rb_int_truncate(VALUE num, int ndigits)
 {
+    if (ndigits >= 0) {
+	    return num;
+    }
+
     VALUE f;
     VALUE m;
 
@@ -5788,12 +5804,6 @@ int_round(int argc, VALUE* argv, VALUE num)
     if (!rb_scan_args(argc, argv, "01:", &nd, &opt)) return num;
     ndigits = NUM2INT(nd);
     mode = rb_num_get_rounding_option(opt);
-    if (ndigits > 0) {
-	    return rb_Float(num);
-    }
-    if (ndigits == 0) {
-        return num;
-    }
     return rb_int_round(num, ndigits, mode);
 }
 
@@ -5860,12 +5870,6 @@ int_floor(int argc, VALUE* argv, VALUE num)
 
     if (!rb_check_arity(argc, 0, 1)) return num;
     ndigits = NUM2INT(argv[0]);
-    if (ndigits > 0) {
-	    return rb_Float(num);
-    }
-    if (ndigits == 0) {
-        return num;
-    }
     return rb_int_floor(num, ndigits);
 }
 
@@ -5931,12 +5935,6 @@ int_ceil(int argc, VALUE* argv, VALUE num)
 
     if (!rb_check_arity(argc, 0, 1)) return num;
     ndigits = NUM2INT(argv[0]);
-    if (ndigits > 0) {
-	    return rb_Float(num);
-    }
-    if (ndigits == 0) {
-        return num;
-    }
     return rb_int_ceil(num, ndigits);
 }
 
@@ -5970,12 +5968,6 @@ int_truncate(int argc, VALUE* argv, VALUE num)
 
     if (!rb_check_arity(argc, 0, 1)) return num;
     ndigits = NUM2INT(argv[0]);
-    if (ndigits > 0) {
-	    return rb_Float(num);
-    }
-    if (ndigits == 0) {
-        return num;
-    }
     return rb_int_truncate(num, ndigits);
 }
 
