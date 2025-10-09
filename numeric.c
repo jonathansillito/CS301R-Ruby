@@ -5857,10 +5857,7 @@ int_floor(int argc, VALUE* argv, VALUE num)
 
     if (!rb_check_arity(argc, 0, 1)) return num;
     ndigits = NUM2INT(argv[0]);
-    if (ndigits > 0) {
-	    return rb_Float(num);
-    }
-    if (ndigits == 0) {
+    if (ndigits >= 0) {
         return num;
     }
     return rb_int_floor(num, ndigits);
@@ -5928,10 +5925,7 @@ int_ceil(int argc, VALUE* argv, VALUE num)
 
     if (!rb_check_arity(argc, 0, 1)) return num;
     ndigits = NUM2INT(argv[0]);
-    if (ndigits > 0) {
-	    return rb_Float(num);
-    }
-    if (ndigits == 0) {
+    if (ndigits >= 0) {
         return num;
     }
     return rb_int_ceil(num, ndigits);
@@ -5967,10 +5961,7 @@ int_truncate(int argc, VALUE* argv, VALUE num)
 
     if (!rb_check_arity(argc, 0, 1)) return num;
     ndigits = NUM2INT(argv[0]);
-    if (ndigits > 0) {
-	    return rb_Float(num);
-    }
-    if (ndigits == 0) {
+    if (ndigits >= 0) {
         return num;
     }
     return rb_int_truncate(num, ndigits);
